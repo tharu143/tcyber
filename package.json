@@ -1,17 +1,21 @@
 {
-  "name": "mongoapi",
+  "name": "mongapi",
   "version": "1.0.0",
+  "description": "API for managing admins, attendance, certificates, employees, and tasks",
+  "main": "server.js",
   "scripts": {
-    "start": "netlify dev",
-    "build": "npm install && echo 'Preparing Netlify Functions' && ls netlify/functions",
-    "dev": "node server.js"
+    "start": "node server.js",
+    "dev": "netlify dev"
   },
   "dependencies": {
-    "bcrypt": "^5.1.1",
-    "cors": "^2.8.5",
-    "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "mongodb": "^6.0.0",
     "jsonwebtoken": "^9.0.2",
-    "mongodb": "^6.8.0"
+    "bcrypt": "^5.1.1",
+    "dotenv": "^16.3.1"
+  },
+  "devDependencies": {
+    "netlify-cli": "^17.0.0"
   }
 }
