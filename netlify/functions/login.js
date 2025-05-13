@@ -1,4 +1,3 @@
-// D:\tharun\New folder\mongapi\netlify\functions\login.js
 const { login } = require('../../controllers/adminController');
 
 exports.handler = async (event, context) => {
@@ -26,10 +25,6 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Log the incoming request for debugging
-    console.log('Incoming event:', event);
-
-    // Parse the event.body string into a JavaScript object
     let parsedBody;
     try {
       parsedBody = event.body ? JSON.parse(event.body) : {};
@@ -41,9 +36,6 @@ exports.handler = async (event, context) => {
         body: JSON.stringify({ error: 'Invalid request body: Malformed JSON' }),
       };
     }
-
-    // Log the parsed body
-    console.log('Parsed body:', parsedBody);
 
     const req = {
       body: parsedBody,
@@ -64,7 +56,6 @@ exports.handler = async (event, context) => {
       },
     };
 
-    // Call the login function
     await login(req, res);
 
     return {
@@ -73,7 +64,6 @@ exports.handler = async (event, context) => {
       body,
     };
   } catch (error) {
-    // Log any unhandled errors
     console.error('Function error:', error.message, error.stack);
     return {
       statusCode: 500,

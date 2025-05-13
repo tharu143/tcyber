@@ -19,26 +19,24 @@ const login = async (req, res) => {
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    // Log the email being queried
     console.log('Querying admin with email:', email);
-
     const admin = await getAdminByEmail(email);
     if (!admin) {
       console.log('Admin not found for email:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Log before comparing password
-    console.log('Comparing password for admin:', email);
+    const bcryptStartTime = Date.now();
     const passwordMatch = await bcrypt.compare(password, admin.password_hash);
+    console.log(`bcrypt.compare took ${Date.now() - bcryptStartTime}ms`);
     if (!passwordMatch) {
       console.log('Password mismatch for admin:', email);
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    // Log before signing JWT
-    console.log('Signing JWT for admin:', email);
+    const jwtStartTime = Date.now();
     const token = jwt.sign({ email: admin.email, id: admin._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
+    console.log(`jwt.sign took ${Date.now() - jwtStartTime}ms`);
     console.log('Login successful for admin:', email);
 
     res.status(200).json({ token });
