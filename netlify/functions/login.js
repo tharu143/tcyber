@@ -1,3 +1,4 @@
+// D:\tharun\New folder\mongapi\netlify\functions\login.js
 const { login } = require('../../controllers/adminController');
 
 exports.handler = async (event, context) => {
@@ -24,8 +25,20 @@ exports.handler = async (event, context) => {
     };
   }
 
+  // Parse the event.body string into a JavaScript object
+  let parsedBody;
+  try {
+    parsedBody = event.body ? JSON.parse(event.body) : {};
+  } catch (error) {
+    return {
+      statusCode: 400,
+      headers,
+      body: JSON.stringify({ error: 'Invalid request body: Malformed JSON' }),
+    };
+  }
+
   const req = {
-    body: event.body,
+    body: parsedBody,
     headers: event.headers,
   };
 

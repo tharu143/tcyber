@@ -30,7 +30,6 @@ const login = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
