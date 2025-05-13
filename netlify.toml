@@ -1,10 +1,10 @@
 [build]
   command = "npm install"
-  functions = "netlify/functions"
-  publish = "."
+  functions = "netlify/functions" # Directory for serverless functions
+  publish = "." # Root directory for static files (if any)
 
 [[redirects]]
   from = "/api/*"
-  to = "/.netlify/functions/:splat"
+  to = "/.netlify/functions/api" # Point to the 'api' function
   status = 200
   force = true
