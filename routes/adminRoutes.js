@@ -13,8 +13,13 @@ const {
 // Public route
 router.post('/login', login);
 
+// Token verification route
+router.get('/verify', verifyToken, (req, res) => {
+  res.json({ valid: true });
+});
+
 // Protected routes (require JWT)
-router.get('/admins', verifyToken, getAdmins);
+router.get('/admins', verifyToken, getAdmins); // Fixed: Removed 'gaan' and corrected syntax
 router.get('/admins/:id', verifyToken, getAdmin);
 router.post('/admins', verifyToken, createAdmin);
 router.put('/admins/:id', verifyToken, updateAdmin);

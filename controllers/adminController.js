@@ -7,7 +7,7 @@ const {
   getAdminById,
   createAdmin: createAdminModel,
   updateAdmin: updateAdminModel,
-  deleteAdmin: deleteAdminModel, // Renamed to avoid conflict
+  deleteAdmin: deleteAdminModel,
 } = require('../models/admins');
 
 const login = async (req, res) => {
