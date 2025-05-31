@@ -15,36 +15,22 @@ const login = async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-      console.log('Missing email or password:', { email, password });
       return res.status(400).json({ error: 'Email and password are required' });
     }
 
-    console.log('Querying admin with email:', email);
     const admin = await getAdminByEmail(email);
-    if (!admin) {
-      console.log('Admin not found for email:', email);
+    if (!admin || !(await bcrypt.compare(password, admin.password_hash))) {
       return res.status(401).json({ error: 'Invalid credentials' });
     }
 
-    const bcryptStartTime = Date.now();
-    const passwordMatch = await bcrypt.compare(password, admin.password_hash);
-    console.log(`bcrypt.compare took ${Date.now() - bcryptStartTime}ms`);
-    if (!passwordMatch) {
-      console.log('Password mismatch for admin:', email);
-      return res.status(401).json({ error: 'Invalid credentials' });
-    }
-
-    const jwtStartTime = Date.now();
     const token = jwt.sign({ email: admin.email, id: admin._id.toString() }, process.env.JWT_SECRET, { expiresIn: '1h' });
-    console.log(`jwt.sign took ${Date.now() - jwtStartTime}ms`);
-    console.log('Login successful for admin:', email);
-
     res.status(200).json({ token });
   } catch (err) {
-    console.error('Login error:', err.message, err.stack);
+    console.error('Login error:', err.message);
     res.status(500).json({ error: 'Internal server error' });
   }
 };
+
 const verifyToken = (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
