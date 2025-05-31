@@ -4,18 +4,6 @@
   publish = "."
 
 [[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
-  from = "/api/*"
-  to = "/.netlify/functions/api/:splat"
-  status = 200
-  force = true
-
-[[redirects]]
   from = "/api/license/register"
   to = "/.netlify/functions/license/register"
   status = 200
@@ -30,6 +18,12 @@
 [[redirects]]
   from = "/api/license/approve"
   to = "/.netlify/functions/license/approve"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
 
