@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
-const License = require('../../models/License'); // Adjusted path
-const { sendApprovalEmail } = require('../../utils/email'); // Adjusted path
+const License = require('../../models/License');
+const { sendApprovalEmail } = require('../../utils/email');
 
 exports.handler = async (event, context) => {
   const headers = {
@@ -11,16 +11,10 @@ exports.handler = async (event, context) => {
     'Access-Control-Allow-Credentials': 'true',
   };
 
-  // Handle CORS preflight
   if (event.httpMethod === 'OPTIONS') {
-    return {
-      statusCode: 200,
-      headers,
-      body: '',
-    };
+    return { statusCode: 200, headers, body: '' };
   }
 
-  // Only allow POST requests
   if (event.httpMethod !== 'POST') {
     return {
       statusCode: 405,
@@ -29,7 +23,6 @@ exports.handler = async (event, context) => {
     };
   }
 
-  // Connect to MongoDB
   try {
     if (mongoose.connection.readyState !== 1) {
       await mongoose.connect(process.env.MONGODB_URI, {
@@ -51,10 +44,8 @@ exports.handler = async (event, context) => {
   const body = JSON.parse(event.body || '{}');
 
   try {
-    // Register a new license
     if (path.endsWith('/license/register')) {
       const { name, deviceId } = body;
-
       if (!name || !deviceId) {
         return {
           statusCode: 400,
@@ -62,7 +53,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'Name and deviceId are required' }),
         };
       }
-
       const existingLicense = await License.findOne({ deviceId });
       if (existingLicense) {
         return {
@@ -71,18 +61,10 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'Device already registered with a license' }),
         };
       }
-
       const licenseNumber = uuidv4();
-      const license = new License({
-        licenseNumber,
-        name,
-        deviceId,
-        isApproved: false,
-      });
-
+      const license = new License({ licenseNumber, name, deviceId, isApproved: false });
       await license.save();
       await sendApprovalEmail(licenseNumber, name, deviceId, process.env.ADMIN_EMAIL);
-
       return {
         statusCode: 201,
         headers,
@@ -90,10 +72,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Verify a license
     if (path.endsWith('/license/verify')) {
       const { licenseNumber, deviceId } = body;
-
       if (!licenseNumber || !deviceId) {
         return {
           statusCode: 400,
@@ -101,7 +81,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'LicenseNumber and deviceId are required' }),
         };
       }
-
       const license = await License.findOne({ licenseNumber });
       if (!license) {
         return {
@@ -110,7 +89,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'License not found' }),
         };
       }
-
       if (!license.isApproved) {
         return {
           statusCode: 403,
@@ -118,7 +96,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'License not approved' }),
         };
       }
-
       if (license.deviceId !== deviceId) {
         await sendApprovalEmail(licenseNumber, license.name, deviceId, process.env.ADMIN_EMAIL);
         return {
@@ -127,7 +104,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'Unauthorized device' }),
         };
       }
-
       return {
         statusCode: 200,
         headers,
@@ -135,10 +111,8 @@ exports.handler = async (event, context) => {
       };
     }
 
-    // Approve a license
     if (path.endsWith('/license/approve')) {
       const { licenseNumber } = body;
-
       if (!licenseNumber) {
         return {
           statusCode: 400,
@@ -146,7 +120,6 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'LicenseNumber is required' }),
         };
       }
-
       const license = await License.findOne({ licenseNumber });
       if (!license) {
         return {
@@ -155,10 +128,8 @@ exports.handler = async (event, context) => {
           body: JSON.stringify({ message: 'License not found' }),
         };
       }
-
       license.isApproved = true;
       await license.save();
-
       return {
         statusCode: 200,
         headers,
