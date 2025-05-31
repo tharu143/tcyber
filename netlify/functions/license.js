@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const { v4: uuidv4 } = require('uuid');
-const License = require('../models/License');
-const { sendApprovalEmail } = require('../utils/email');
+const License = require('../../models/License'); // Adjusted path
+const { sendApprovalEmail } = require('../../utils/email'); // Adjusted path
 
 exports.handler = async (event, context) => {
   const headers = {
