@@ -10,7 +10,31 @@
   force = true
 
 [[redirects]]
-  from = "/api/license/*"
-  to = "/.netlify/functions/license/:splat"
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/license/register"
+  to = "/.netlify/functions/license/register"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/license/verify"
+  to = "/.netlify/functions/license/verify"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/license/approve"
+  to = "/.netlify/functions/license/approve"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/verify"
+  to = "/.netlify/functions/verify"
   status = 200
   force = true
