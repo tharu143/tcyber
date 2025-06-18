@@ -21,7 +21,7 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 const allowedOrigins = [
-  'http://localhost:5173',
+  
   'https://tmcybertech.netlify.app',
 ];
 
