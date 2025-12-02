@@ -21,8 +21,11 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 const allowedOrigins = [
-  
+
   'https://tmcybertech.netlify.app',
+  'https://tmcybertech.in',
+  'https://www.tmcybertech.in',
+  'http://localhost:5173'
 ];
 
 app.use(cors({
