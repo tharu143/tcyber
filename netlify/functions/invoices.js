@@ -2,6 +2,7 @@ const { verifyToken } = require('../../controllers/adminController');
 const { getInvoices, getInvoice, createInvoice, updateInvoice, deleteInvoice } = require('../../controllers/invoiceController');
 
 exports.handler = async (event, context) => {
+    context.callbackWaitsForEmptyEventLoop = false;
     const allowedOrigins = [
         'https://tmcybertech.netlify.app',
         'https://tmcybertech.in',
