@@ -32,6 +32,7 @@ const getInvoices = async (req, res) => {
 
 const getInvoice = async (req, res) => {
     try {
+        await connectDB();
         const { id } = req.params;
         if (!ObjectId.isValid(id)) {
             return res.status(400).json({ error: 'Invalid invoice ID' });
@@ -51,6 +52,7 @@ const getInvoice = async (req, res) => {
 
 const createInvoice = async (req, res) => {
     try {
+        await connectDB();
         const invoiceData = req.body;
         // Basic validation
         if (!invoiceData.documentType || !invoiceData.clientName) {
@@ -67,6 +69,7 @@ const createInvoice = async (req, res) => {
 
 const updateInvoice = async (req, res) => {
     try {
+        await connectDB();
         const { id } = req.params;
         if (!ObjectId.isValid(id)) {
             return res.status(400).json({ error: 'Invalid invoice ID' });
@@ -88,6 +91,7 @@ const updateInvoice = async (req, res) => {
 
 const deleteInvoice = async (req, res) => {
     try {
+        await connectDB();
         const { id } = req.params;
         if (!ObjectId.isValid(id)) {
             return res.status(400).json({ error: 'Invalid invoice ID' });
