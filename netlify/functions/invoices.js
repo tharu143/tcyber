@@ -50,8 +50,10 @@ exports.handler = async (event, context) => {
         };
 
         const pathParts = event.path.split('/');
-        if (pathParts.length > 3) {
-            req.params.id = pathParts[pathParts.length - 1];
+        const lastPart = pathParts[pathParts.length - 1];
+        // If the last part is not 'invoices' and not empty, treat it as an ID
+        if (lastPart && lastPart !== 'invoices') {
+            req.params.id = lastPart;
         }
 
         let nextCalled = false;
