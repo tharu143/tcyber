@@ -1,4 +1,7 @@
 const { ObjectId } = require('mongodb');
+const mongoose = require('mongoose');
+require('dotenv').config();
+
 const {
     getAllInvoices,
     getInvoiceById,
@@ -7,8 +10,18 @@ const {
     deleteInvoice: deleteInvoiceModel,
 } = require('../models/invoice');
 
+const connectDB = async () => {
+    if (mongoose.connection.readyState === 0) {
+        await mongoose.connect(process.env.MONGODB_URI, {
+            useNewUrlParser: true,
+            useUnifiedTopology: true,
+        });
+    }
+};
+
 const getInvoices = async (req, res) => {
     try {
+        await connectDB();
         const invoices = await getAllInvoices();
         res.status(200).json(invoices);
     } catch (err) {
