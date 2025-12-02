@@ -10,6 +10,7 @@ const certificateRoutes = require('./routes/certificateRoutes');
 const employeeRoutes = require('./routes/employeeRoutes');
 const taskRoutes = require('./routes/taskRoutes');
 const licenseRoutes = require('./routes/licenseRoutes');
+const invoiceRoutes = require('./routes/invoiceRoutes');
 
 const app = express();
 
@@ -21,7 +22,6 @@ mongoose.connect(process.env.MONGODB_URI, {
   .catch((err) => console.error('❌ MongoDB connection error:', err));
 
 const allowedOrigins = [
-
   'https://tmcybertech.netlify.app',
   'https://tmcybertech.in',
   'https://www.tmcybertech.in',
@@ -49,6 +49,7 @@ app.use('/api', certificateRoutes);
 app.use('/api', employeeRoutes);
 app.use('/api', taskRoutes);
 app.use('/api/license', licenseRoutes);
+app.use('/api/invoices', invoiceRoutes);
 
 module.exports = app;
 module.exports.handler = serverless(app);
