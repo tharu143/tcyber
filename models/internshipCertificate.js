@@ -1,6 +1,9 @@
 const { MongoClient, ObjectId } = require('mongodb');
 
-const uri = process.env.MONGODB_URI || 'mongodb+srv://tmcyber:Tharun143%40@tm.bupjtnt.mongodb.net/tmcyber';
+const uri = process.env.MONGODB_URI;
+if (!uri) {
+  throw new Error('MONGODB_URI environment variable is not defined');
+}
 const client = new MongoClient(uri);
 let db;
 
