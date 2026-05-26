@@ -1,8 +1,17 @@
 const { login } = require('../../controllers/adminController');
 
 exports.handler = async (event, context) => {
+  const allowedOrigins = [
+    'https://tmcybertech.netlify.app',
+    'https://tmcybertech.in',
+    'https://www.tmcybertech.in',
+    'http://localhost:5173'
+  ];
+  const origin = event.headers.origin || event.headers.Origin;
+  const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
   const headers = {
-    'Access-Control-Allow-Origin': process.env.FRONTEND_URL || 'https://tmcybertech.netlify.app',
+    'Access-Control-Allow-Origin': allowOrigin,
     'Access-Control-Allow-Methods': 'POST, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',

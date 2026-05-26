@@ -34,6 +34,24 @@
   force = true
 
 [[redirects]]
+  from = "/api/internship-certificates/*"
+  to = "/.netlify/functions/internship-certificates/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/internship-certificates"
+  to = "/.netlify/functions/internship-certificates"
+  status = 200
+  force = true
+
+[[redirects]]
+  from = "/api/public/internship-certificates/*"
+  to = "/.netlify/functions/internship-certificates/public/:splat"
+  status = 200
+  force = true
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
