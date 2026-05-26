@@ -10,18 +10,8 @@ const {
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
-  const allowedOrigins = [
-    'https://tmcybertech.netlify.app',
-    'https://tmcybertech.in',
-    'https://www.tmcybertech.in',
-    'http://localhost:5173'
-  ];
-  
-  const origin = event.headers.origin || event.headers.Origin;
-  const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-
-  const headers = {
-    'Access-Control-Allow-Origin': allowOrigin,
+  let headers = {
+    'Access-Control-Allow-Origin': 'https://tmcybertech.netlify.app',
     'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
     'Access-Control-Allow-Headers': 'Content-Type, Authorization',
     'Access-Control-Allow-Credentials': 'true',
@@ -29,6 +19,18 @@ exports.handler = async (event, context) => {
 
   const startTime = Date.now();
   try {
+    const allowedOrigins = [
+      'https://tmcybertech.netlify.app',
+      'https://tmcybertech.in',
+      'https://www.tmcybertech.in',
+      'http://localhost:5173'
+    ];
+    
+    const origin = (event.headers && (event.headers.origin || event.headers.Origin)) || '';
+    const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
+
+    headers['Access-Control-Allow-Origin'] = allowOrigin;
+
     if (event.httpMethod === 'OPTIONS') {
       console.log(`OPTIONS request completed in ${Date.now() - startTime}ms`);
       return {
@@ -39,7 +41,7 @@ exports.handler = async (event, context) => {
     }
 
     const req = {
-      headers: event.headers,
+      headers: event.headers || {},
       params: {},
       body: event.body ? JSON.parse(event.body) : {},
     };
