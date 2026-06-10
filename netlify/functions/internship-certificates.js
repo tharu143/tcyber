@@ -7,29 +7,15 @@ const {
   getPublicInternshipCertificate 
 } = require('../../controllers/internshipCertificateController');
 
+const { getCorsHeaders } = require('../../utils/cors');
+
 exports.handler = async (event, context) => {
   context.callbackWaitsForEmptyEventLoop = false;
 
-  let headers = {
-    'Access-Control-Allow-Origin': 'https://tmcybertech.netlify.app',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const headers = getCorsHeaders(event);
 
   const startTime = Date.now();
   try {
-    const allowedOrigins = [
-      'https://tmcybertech.netlify.app',
-      'https://tmcybertech.in',
-      'https://www.tmcybertech.in',
-      'http://localhost:5173'
-    ];
-    
-    const origin = (event.headers && (event.headers.origin || event.headers.Origin)) || '';
-    const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-
-    headers['Access-Control-Allow-Origin'] = allowOrigin;
 
     if (event.httpMethod === 'OPTIONS') {
       console.log(`OPTIONS request completed in ${Date.now() - startTime}ms`);

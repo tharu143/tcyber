@@ -1,12 +1,8 @@
 const { verifyToken, getEmployees, getEmployee, createEmployee, updateEmployee, deleteEmployee } = require('../../controllers/employeeController');
+const { getCorsHeaders } = require('../../utils/cors');
 
 exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': process.env.FRONTEND_URL || 'https://tmcybertech.netlify.app',
-    'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const headers = getCorsHeaders(event);
 
   const startTime = Date.now();
   try {

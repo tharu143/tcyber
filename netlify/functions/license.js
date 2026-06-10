@@ -3,13 +3,10 @@ const { v4: uuidv4 } = require('uuid');
 const License = require('../../models/License');
 const { sendApprovalEmail } = require('../../utils/email');
 
+const { getCorsHeaders } = require('../../utils/cors');
+
 exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': process.env.FRONTEND_URL || 'https://tmcybertech.netlify.app',
-    'Access-Control-Allow-Methods': 'POST, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const headers = getCorsHeaders(event);
 
   if (event.httpMethod === 'OPTIONS') {
     return { statusCode: 200, headers, body: '' };

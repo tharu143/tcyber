@@ -1,13 +1,9 @@
 // D:\tharun\New folder\mongapi\netlify\functions\test-mongo.js
 const { MongoClient } = require('mongodb');
+const { getCorsHeaders } = require('../../utils/cors');
 
 exports.handler = async (event, context) => {
-  const headers = {
-    'Access-Control-Allow-Origin': process.env.FRONTEND_URL || 'https://tmcybertech.netlify.app',
-    'Access-Control-Allow-Methods': 'GET, OPTIONS',
-    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-    'Access-Control-Allow-Credentials': 'true',
-  };
+  const headers = getCorsHeaders(event);
 
   try {
     if (event.httpMethod === 'OPTIONS') {

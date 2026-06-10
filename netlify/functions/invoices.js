@@ -1,23 +1,11 @@
 const { verifyToken } = require('../../controllers/adminController');
 const { getInvoices, getInvoice, createInvoice, updateInvoice, deleteInvoice } = require('../../controllers/invoiceController');
 
+const { getCorsHeaders } = require('../../utils/cors');
+
 exports.handler = async (event, context) => {
     context.callbackWaitsForEmptyEventLoop = false;
-    const allowedOrigins = [
-        'https://tmcybertech.netlify.app',
-        'https://tmcybertech.in',
-        'https://www.tmcybertech.in',
-        'http://localhost:5173'
-    ];
-    const origin = event.headers.origin || event.headers.Origin;
-    const allowOrigin = allowedOrigins.includes(origin) ? origin : allowedOrigins[0];
-
-    const headers = {
-        'Access-Control-Allow-Origin': allowOrigin,
-        'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-        'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-        'Access-Control-Allow-Credentials': 'true',
-    };
+    const headers = getCorsHeaders(event);
 
     const startTime = Date.now();
     try {
